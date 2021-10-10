@@ -32,7 +32,7 @@ const ping_devices = () => {
   final_op.device_status = [];
   final_op.update_time = date.format(now, "YYYY/MM/DD HH:mm:ss");
   const devices =
-    "192.168.1.100 192.168.1.102 vpn.opencloud.pattarai.in pattarai.in pintoinfant.tech".split(
+    (process.env.DEVICES || "pintoinfant.tech").split(
       " "
     );
   devices.forEach((device) => {
