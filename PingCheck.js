@@ -38,7 +38,7 @@ const ping_devices = () => {
   final_op.update_time = date.format(now, "YYYY/MM/DD HH:mm:ss");
   const devices = (
     process.env.DEVICES ||
-    "pintoinfant.tech 192.168.1.101 rpidb.node.opencloud.world server.pintoinfant.tech"
+    "pintoinfant.tech 192.168.1.101 10.8.0.1 rpidb.node.opencloud.world server.pintoinfant.tech"
   ).split(" ");
   devices.forEach((device) => {
     ping_function(device);
@@ -46,4 +46,4 @@ const ping_devices = () => {
   return final_op;
 };
 
-module.exports = ping_devices;
+module.exports = ping_devices();
