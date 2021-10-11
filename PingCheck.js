@@ -18,7 +18,7 @@ const ping_function = (ip_addr) => {
   var ping = shell.exec(`ping -n 1 ${ip_addr}`, {
     silent: true,
   });
-  // console.log(ping.stdout);
+  console.log(ping.stdout);
   if (ping.stdout.includes("Request timed out")) {
     final_op["device_status"].push(ping_schema(ip_addr, "Unavailable"));
   } else if (ping.stdout.includes("Destination host unreachable")) {
