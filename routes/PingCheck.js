@@ -1,5 +1,7 @@
 const shell = require("shelljs");
 const date = require("date-and-time");
+const express = require("express");
+const router = express.Router();
 
 const final_op = {
   device_status: [],
@@ -7,18 +9,17 @@ const final_op = {
 };
 
 const ping_schema = (ip_add, status) => {
-  const ping_json = {
+  return {
     host: ip_add,
     status: status,
   };
-  return ping_json;
 };
 
 const ping_function = (ip_addr) => {
   var ping = shell.exec(`ping -n 1 ${ip_addr}`, {
     silent: true,
   });
-  console.log(ping.stdout);
+  // console.log(ping.stdout);
   if (ping.stdout.includes("Request timed out")) {
     final_op["device_status"].push(ping_schema(ip_addr, "Unavailable"));
   } else if (ping.stdout.includes("Destination host unreachable")) {
@@ -38,7 +39,7 @@ const ping_devices = () => {
   final_op.update_time = date.format(now, "YYYY/MM/DD HH:mm:ss");
   const devices = (
     process.env.DEVICES ||
-    "pintoinfant.tech 192.168.1.101 10.8.0.1 rpidb.node.opencloud.world server.pintoinfant.tech"
+    "pintoinfant.tech 127.0.0.1"
   ).split(" ");
   devices.forEach((device) => {
     ping_function(device);
@@ -46,4 +47,10 @@ const ping_devices = () => {
   return final_op;
 };
 
-module.exports = ping_devices();
+router.get("/", (req, res) => {
+  res.json(ping_devices());
+})
+
+module.exports = {
+  router
+}
