@@ -13,5 +13,4 @@ jobs:
           username: ${{ secrets.HOST }}
           key: ${{ secrets.SSH_KEY }}
           port: 22
-          script: |
-            cd /root/opencloud-v2 && git pull
+          script: cd /root/opencloud-v2 && git pull
