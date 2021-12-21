@@ -1,4 +1,4 @@
-name: CI-SFTP
+name: Push to Server
 
 # Controls when the action will run. 
 on:
