@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const deviceStatus = require("./routes/DeviceStatus").router
+const generateCertificate = require("./routes/GenerateCertificate").router
 
 const PORT = process.env.PORT || 5000;
 
@@ -9,6 +10,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/devicestatus", deviceStatus);
+app.use("/generatecertificate", generateCertificate)
 
 app.listen(PORT, () => {
   console.log(`App is Running on Port ${PORT}`);
