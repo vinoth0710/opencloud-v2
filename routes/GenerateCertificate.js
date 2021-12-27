@@ -7,7 +7,6 @@ const nodemailer = require("nodemailer")
 const ipaddress = require("../json/IpAddress.json");
 
 const send_mail = async (imei, receiver) => {
-    "use strict"
     var transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -68,6 +67,4 @@ router.post("/", async (req, res) => {
     }
 })
 
-module.exports = {
-    router
-}
+module.exports = router
