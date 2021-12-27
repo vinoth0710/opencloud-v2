@@ -7,6 +7,7 @@ const nodemailer = require("nodemailer")
 const ipaddress = require("../json/IpAddress.json");
 
 const send_mail = async (imei, receiver) => {
+    "use strict"
     var transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -38,10 +39,10 @@ const send_mail = async (imei, receiver) => {
 
 }
 
-router.get("/", async (req, res) => {
-    let { imei, email } = req.query;
+router.post("/", async (req, res) => {
+    let { imei, email } = req.body;
     if ((email && imei !== undefined) && (email && imei !== "")) {
-        let command = shell.exec(`./vpn.sh ${imei}`)
+        let command = shell.exec(`sudo bash vpn.sh ${imei}`)
         if (command.code === 0) {
             let new_ip = `10.8.0.${parseInt(ipaddress[ipaddress.length - 1].split(".")[3]) + 1}`
             ipaddress.push(new_ip);
@@ -56,7 +57,8 @@ router.get("/", async (req, res) => {
             })
         } else {
             res.json({
-                message: "Something went wrong"
+                message: "Something went wrong",
+                error: command.stderr
             })
         }
     } else {

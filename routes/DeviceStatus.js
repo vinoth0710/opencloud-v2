@@ -16,6 +16,7 @@ const ping_schema = (ip_add, status) => {
 };
 
 const ping_function = (ip_addr) => {
+  "use strict"
   let ping = shell.exec(`ping -n 1 ${ip_addr}`, {
     silent: true,
   }).stdout;
@@ -33,6 +34,7 @@ const ping_function = (ip_addr) => {
 };
 
 const ping_devices = () => {
+  "use strict"
   const now = new Date();
   final_op.device_status = [];
   final_op.updated_time = date.format(now, "YYYY-MM-DD HH:mm:ss");
