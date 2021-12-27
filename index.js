@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
-const deviceStatus = require("./routes/DeviceStatus").router
-const generateCertificate = require("./routes/GenerateCertificate").router
+const deviceStatus = require("./routes/DeviceStatus")
+const generateCertificate = require("./routes/GenerateCertificate")
 
 const PORT = process.env.PORT || 5000;
 
