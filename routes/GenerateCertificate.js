@@ -11,7 +11,7 @@ const send_mail = async (imei, receiver) => {
         service: "gmail",
         auth: {
             user: "infantvalan02@gmail.com",
-            pass: "pmrdsejaymicrtoj",
+            pass: "",
         },
     });
 
