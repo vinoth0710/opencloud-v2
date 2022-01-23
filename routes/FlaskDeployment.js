@@ -1,7 +1,8 @@
 const shell = require("shelljs");
-const date = require("date-and-time");
 const express = require("express");
 const router = express.Router();
+const confAdder = require("../utils/ConfAdder")
+const port = require("../utils/RandomPortUtil")
 
 
 router.post("/", (req, res) => {
@@ -16,27 +17,28 @@ router.post("/", (req, res) => {
         else {
             port = "8022"
         }
-        let command = `cat ../utils/FlaskDeployment.js | ssh ${device} -p ${port} node - ${gitUrl}`
+        let port = port()
+        let command = `cat ../utils/FlaskDeployment.js | ssh ${device} -p ${port} node - ${gitUrl} ${port}`
         let output = shell.exec(command)
         if (!output.stderr) {
-            let result = {
+            publicAddress = confAdder(device, port)
+            shell.exec("systemctl restart haproxy")
+            res.json({
+                "siteAddress": publicAddress,
                 "status": "deployed succesfully",
-            }
-            res.json(result)
+            })
         }
         else {
-            let result = {
+            res.json({
                 "status": "Failed"
-            }
-            res.json(result)
+            })
         }
 
     }
     else {
-        let result = {
+        res.json({
             "status": "Some parameter missing"
-        }
-        res.json(result)
+        })
     }
 
 })
