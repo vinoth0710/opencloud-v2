@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const deviceStatus = require("./routes/DeviceStatus")
 const generateCertificate = require("./routes/GenerateCertificate")
+const flaskDeployment = require("./routes/FlaskDeployment")
 
 const PORT = process.env.PORT || 5000;
 
@@ -14,6 +15,7 @@ app.get("/", (req, res) => {
 
 app.use("/devicestatus", deviceStatus);
 app.use("/generatecertificate", generateCertificate)
+app.use("/flaskdeployment", flaskDeployment)
 
 app.listen(PORT, () => {
   console.log(`App is Running on Port ${PORT}`);
