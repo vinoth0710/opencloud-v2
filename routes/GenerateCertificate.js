@@ -6,7 +6,7 @@ const nodemailer = require("nodemailer")
 
 const ipaddress = require("../json/IpAddress.json");
 
-const send_mail = async (imei, receiver) => {
+const send_mail = (imei, receiver) => {
     var transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -28,7 +28,7 @@ const send_mail = async (imei, receiver) => {
         ]
     };
 
-    await transporter.sendMail(mailOptions, function (error, info) {
+    transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
             console.log(error);
         } else {
@@ -40,7 +40,7 @@ const send_mail = async (imei, receiver) => {
 
 router.post("/", async (req, res) => {
     let { imei, email } = req.body;
-    if ((email && imei !== undefined) && (email && imei !== "")) {
+    if ((imei || email) != ("" || null || undefined)) {
         let command = shell.exec(`sudo bash vpn.sh ${imei}`)
         if (command.code === 0) {
             let new_ip = `10.8.0.${parseInt(ipaddress[ipaddress.length - 1].split(".")[3]) + 1}`
@@ -50,7 +50,7 @@ router.post("/", async (req, res) => {
             });
             shell.exec(`echo \"ifconfig-push ${new_ip} 255.255.255.0\" > /etc/openvpn/ccd/${imei}`)
             shell.exec(`openssl x509 -subject -noout -in /etc/openvpn/easy-rsa/pki/issued/${imei}.crt`)
-            await send_mail(imei, email)
+            send_mail(imei, email)
             res.json({
                 message: "Certificate has been sent to your mail"
             })
