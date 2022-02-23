@@ -10,7 +10,7 @@ let gitUrl = process.argv.slice(2)[0]
 let port = process.argv.slice(2)[1]
 let root=`/data/data/com.termux/files/usr/share/nginx/html`
     try {
-        // Cloning repo 
+        // Cloning repo hello
         shell.exec(`cd deployment && git clone ${gitUrl}`)
         let folderWords = gitUrl.split("/")
         let folderName = folderWords[folderWords.length - 1].replace(".git", "")
