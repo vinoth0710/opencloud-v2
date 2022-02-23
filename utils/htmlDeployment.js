@@ -10,7 +10,7 @@ let gitUrl = process.argv.slice(2)[0]
 let port = process.argv.slice(2)[1]
 let root=`/data/data/com.termux/files/usr/share/nginx/html`
     try {
-        // Cloning repo hello
+        // Cloning repo 
         shell.exec(`cd deployment && git clone ${gitUrl}`)
         let folderWords = gitUrl.split("/")
         let folderName = folderWords[folderWords.length - 1].replace(".git", "")
@@ -25,38 +25,27 @@ let root=`/data/data/com.termux/files/usr/share/nginx/html`
                 shell.exec(`rm -r ${root}/*`)
                 shell.exec(`cp -r ${appDirectory}/* ${root}`)
                 console.log("Repo copied to root")
-
-              /*   try{
-                    
-                    //navigate to nginx.conf and edit server(default port:8022). */
-                    try{
+                try{
                         //start nginx server.
                         shell.exec(`./nginx`);
-    
-
-                        //provide url.
-
-
 
                         // stop serrver.
                         shell.exec(`sudo ./nginx -s stop`);
                     }catch{
                         //starting nginx server failed.
+                        console.log("Nginx failed to start server.")
+                        process.exit()
                         }
-             /*   }catch{
-
-                    //Can't find nginx.conf.
-                    }*/
             }catch{
-                console.log("Transferring data from home to root failed")
+                console.log("Transferring data from home to root failed.")
                 //can't find html folder.
             }
         }catch{
-            console.log("Nginx is not installed")
+            console.log("Nginx is not installed.")
             process.exit()
             //Nginx is not installed.
         }
     }catch {
-            console.log("Repository cloning failed")
+            console.log("Repository cloning failed.")
             process.exit()
         }
